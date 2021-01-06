@@ -1,0 +1,15 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: # yours
+        namespace: # yours
+        group: # yours
+        prefix: user-center
+        file-extension: yaml
+      discovery:
+        server-addr: # yours
+        namespace: # yours
+  main:
+    allow-bean-definition-overriding: true
+

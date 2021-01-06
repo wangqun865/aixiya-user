@@ -1,0 +1,17 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: # yours
+        group: # yours
+        prefix: user-center
+        file-extension: yaml
+        namespace: # yours
+      discovery:
+        namespace: # yours
+        server-addr: # yours
+  main:
+    allow-bean-definition-overriding: true
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

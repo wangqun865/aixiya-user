@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: user-center
+  profiles:
+    active: local
+logging:
+  level:
+    org.springframework: info
+    com:
+      alibaba:
+        cloud:
+          nacos:
+            client:
+              NacosPropertySourceBuilder: error

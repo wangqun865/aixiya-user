@@ -1,0 +1,104 @@
+server:
+  port: 8403
+
+spring:
+  aop:
+    proxy-target-class: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  datasource:
+    dynamic:
+      p6spy: true
+      hikari:
+        connection-timeout: 30000
+        max-lifetime: 1800000
+        max-pool-size: 15
+        min-idle: 5
+        connection-test-query: select 1
+        pool-name: vesselHikariCP
+      primary: master
+      datasource:
+        master:
+          username: # yours
+          password: # yours
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://# yours?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
+        slave:
+          username: # yours
+          password: # yours
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://# yours?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
+
+  kafka:
+    bootstrap-servers: # yours
+    producer:
+      retries: 0
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  zipkin:
+    sender:
+      type: kafka
+  sleuth:
+    sampler:
+      probability: 1
+  main:
+    allow-bean-definition-overriding: true
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    jdbc-type-for-null: null
+  global-config:
+    banner: false
+security:
+  oauth2:
+    resource:
+      id: ${spring.application.name}
+      user-info-uri: http://auth-center/user
+      loadBalanced: true
+info:
+  app:
+    name: ${spring.application.name}
+    description: "@project.description@"
+    version: "@project.version@"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+aixiya:
+  platform:
+    security:
+      enable: true
+      only-fetch-by-gateway: false
+      anon-uris: /actuator/**,/public/**,/userClient/**
+    log:
+      filter:
+        enable: true
+        annoUrlPatterns: /public/test1
+      console:
+        enable: true
+      kafka:
+        bootstrap-servers: # yours
+ribbon:
+  ConnectTimeout: 10000
+  ReadTimeout: 10000
+feign:
+  hystrix:
+    enabled: true
+hystrix:
+  shareSecurityContext: true
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 33000
+logging:
+  config: classpath:aixiya-logback.xml
